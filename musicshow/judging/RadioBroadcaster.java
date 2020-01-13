@@ -19,3 +19,4 @@ public class RadioBroadcaster extends Judge {
         return sum;
     }
 }
+
