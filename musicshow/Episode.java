@@ -89,6 +89,10 @@ public class Episode {
     public void setContestants(List<Contestant> contestants) {
         this.contestants = contestants;
     }
+
+    public void createContestantScore(Judge myJudge, Contestant myContestant,int grade,String comment){
+
+    }
        
     
 }
