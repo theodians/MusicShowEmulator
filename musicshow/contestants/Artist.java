@@ -5,6 +5,8 @@
  */
 package musicshow.contestants;
 
+import java.util.Date;
+
 /**
  *
  * @author nicolas
@@ -23,6 +25,9 @@ public abstract class Artist extends Contestant{
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
+
+    @Override
+    public Date getFormationDate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

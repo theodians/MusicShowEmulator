@@ -10,6 +10,8 @@ import musicshow.Score;
 import musicshow.judging.RadioBroadcaster;
 import musicshow.judging.SingExpert;
 
+import java.util.Date;
+
 /**
  * Αναπαριστά τραγουδιστές
  * @author nicolas
@@ -19,4 +21,5 @@ public class Singer extends Artist{
     public Singer(String name) {
         super(name);
     }
+
 }

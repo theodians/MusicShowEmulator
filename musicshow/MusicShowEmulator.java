@@ -3,6 +3,7 @@ package musicshow;
 import musicshow.contestants.*;
 import musicshow.judging.*;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class MusicShowEmulator {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
 
         TvShowsCompany tvShowsCompany = new TvShowsCompany();
-        tvShowsCompany.createMusicShow(1,"the Voids");
+        tvShowsCompany.createMusicShow(1,"Τhe Βο'ί'δς");
         MusicShow musicShow = tvShowsCompany.getMusicShow(1);
         //Δημιουργία επεισοδίων //
         musicShow.createEpisode(1,dateFormat.parse("13/01/2020"),120);
@@ -26,9 +27,10 @@ public class MusicShowEmulator {
         musicShow.createEpisode(9,dateFormat.parse("21/01/2020"),120);
         musicShow.createEpisode(10,dateFormat.parse("22/01/2020"),120);
 
+
         //Δημιουργία κριτών//
         Judge firstJudge = new SingExpert("Έλενα Παπαρίζου");
-        Judge secondJudge = new InstrumentPlayingExpert("Σάκης Ρουβάς ");
+        Judge secondJudge = new InstrumentPlayingExpert("Σάκης Ρουβάς");
         Judge thirdJudge = new SongWritingExpert("Γιώργος Θεοφάνους");
         Judge fourthJudge = new RadioBroadcaster("Μιχάλης Τσαουσόπουλος");
         Judge fifthJudge = new StageExpert("Φωκάς Ευαγγελινός");
@@ -51,7 +53,7 @@ public class MusicShowEmulator {
         Contestant firstInstrumentPlayer = new InstrumentPlayer("Gary Moore");
         Contestant secondIntrumentPlayer = new InstrumentPlayer("Keith Richards");
         Contestant firstBand = new Band("Scorpions",dateFormat.parse("01/03/1965"));//Last Concert at Nioxori//
-        Contestant secondBand = new Band("Beatles",dateFormat.parse("25/08/1956"));
+        Contestant secondBand = new Band("The Beatles",dateFormat.parse("25/08/1956"));
         Contestant thirdBand = new Band("The Rolling Stones",dateFormat.parse("12/10/1950"));
 
         //Συσχέτιση με επεισόδιο 1//
@@ -68,5 +70,11 @@ public class MusicShowEmulator {
         myContestantList.add(thirdBand);
 
         musicShow.getEpisode(1).setContestants(myContestantList);
+
+        musicShow.runEpisodes();
+
+        ReportShow.CreateXml(musicShow);
+
     }
+
 }

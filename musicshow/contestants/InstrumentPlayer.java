@@ -10,6 +10,8 @@ import musicshow.Score;
 import musicshow.judging.InstrumentPlayingExpert;
 import musicshow.judging.RadioBroadcaster;
 
+import java.util.Date;
+
 /**
  *
  * @author nicolas
@@ -19,6 +21,6 @@ public class InstrumentPlayer extends Artist{
     public InstrumentPlayer(String name) {
         super(name);
     }
-    
-    
+
+
 }

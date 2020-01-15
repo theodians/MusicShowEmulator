@@ -5,22 +5,20 @@
  */
 package musicshow.contestants;
 
-import musicshow.judging.SingExpert;
-import musicshow.judging.RadioBroadcaster;
+
 import java.util.Date;
 import musicshow.Episode;
 import musicshow.Score;
-import musicshow.judging.InstrumentPlayingExpert;
 
 /**
  *
- * @author nicolas
+ * @author user
  */
-public class Band extends Contestant{    
+public class Band extends Contestant{
     private Date formationDate;
-    
 
-     public Band(String name) {
+
+    public Band(String name) {
         super(name);
     }
 
@@ -28,8 +26,8 @@ public class Band extends Contestant{
         super(name);
         this.formationDate = formationDate;
     }
-     
-     
+
+
 
     public Date getFormationDate() {
         return formationDate;
@@ -38,7 +36,5 @@ public class Band extends Contestant{
     public void setFormationDate(Date formationDate) {
         this.formationDate = formationDate;
     }
-     
-    
 
 }

@@ -10,6 +10,8 @@ import musicshow.Score;
 import musicshow.judging.SongWritingExpert;
 import musicshow.judging.RadioBroadcaster;
 
+import java.util.Date;
+
 /**
  *
  * @author nicolas
@@ -19,5 +21,6 @@ public class SongWriter extends Artist{
     public SongWriter(String name) {
         super(name);
     }
-    
+
+
 }

@@ -5,12 +5,16 @@
  */
 package musicshow;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import musicshow.judging.JudgingPanel;
+
+import musicshow.contestants.*;
+import musicshow.judging.*;
+
 import java.util.List;
-import musicshow.contestants.Contestant;
-import musicshow.judging.Judge;
+import java.util.Random;
 
 /**
  * Αναπαριστά την Εκπομπή
@@ -27,6 +31,15 @@ public class MusicShow {
     private List<Episode> episodes;
     // Η κριτική επιτροπή που συμμετέχει στην εκπομπή. Υλοποιεί τη συσχέτιση "συμμετέχει" με την κλάση Κριτική Επιτροπή
     private JudgingPanel judgingPanel;
+    private ArrayList<String> judgeComments;
+
+    public ArrayList<String> getJudgeComments() {
+        return judgeComments;
+    }
+
+    public void setJudgeComments(ArrayList<String> judgeComments) {
+        this.judgeComments = judgeComments;
+    }
 
     /**
      * O προκαθορισμένος δημιουργός ο οποίος δημιουργεί τη λίστα επεισοδίων.
@@ -114,5 +127,136 @@ public class MusicShow {
 
     public void setJudgingPanel(JudgingPanel judgingPanel) {
         this.judgingPanel = judgingPanel;
+    }
+    public void runEpisodes(){
+        //Έναρξη επεισοδίων//
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+        for(int i=0; i<episodes.size();i++){
+            System.out.println("Επεισόδιο:"+episodes.get(i).getNum()+
+                    ", Ημερομηνία: "+dateFormat.format(episodes.get(i).getDate())+
+                    ", Διάρκεια: "+episodes.get(i).getDurationMin()+" Λεπτά");
+
+            for(int j=0;j<episodes.get(i).getContestants().size();j++){
+                episodes.get(i).getContestants().get(j).perform();
+
+                double sum = 0;
+                Random myRandomNumber = new Random();
+
+                for(int k=0;k<judgingPanel.getJudges().size(); k++){
+
+                    int grade = myRandomNumber.nextInt(11);
+                    double finalGrade = 0;
+
+
+
+
+                    System.out.println("Judge "+ judgingPanel.getJudges().get(k));
+
+                    if (judgingPanel.getJudges().get(k) instanceof SingExpert){
+                        System.out.println(" ***Sing Expert*** ");
+                        finalGrade = finalGrade+judgingPanel.getJudges().get(k).finalGrade(grade,episodes.get(i).getContestants().get(j));
+                        sum = sum +finalGrade;
+                        System.out.println(" gives " + episodes.get(i).getContestants().get(j).getName());
+                        System.out.println(" grade:" + grade + " \nFinal Grade:" + decimalFormat.format(sum));
+                    }
+                    if (judgingPanel.getJudges().get(k) instanceof SongWritingExpert){
+                        System.out.println(" ***Song Writing Expert*** ");
+                        finalGrade = finalGrade+judgingPanel.getJudges().get(k).finalGrade(grade,episodes.get(i).getContestants().get(j));
+                        sum = sum +finalGrade;
+                        System.out.println(" gives " + episodes.get(i).getContestants().get(j).getName());
+                        System.out.println(" grade:" + grade + " \nFinal Grade:" + decimalFormat.format(sum));
+                    }
+                    if (judgingPanel.getJudges().get(k) instanceof InstrumentPlayingExpert){
+                        System.out.println(" ***Instrument Playing Expert*** ");
+                        finalGrade = finalGrade+judgingPanel.getJudges().get(k).finalGrade(grade,episodes.get(i).getContestants().get(j));
+                        sum = sum +finalGrade;
+                        System.out.println(" gives " + episodes.get(i).getContestants().get(j).getName());
+                        System.out.println(" grade:" + grade + " \nFinal Grade:" + decimalFormat.format(sum));
+                        if (getJudgingPanel().getJudges().contains("Σάκης Ρουβάς")){
+                            System.out.println("Αισθάνομαι, αισθάνομαι ");
+                        }
+                    }
+                    if (judgingPanel.getJudges().get(k) instanceof StageExpert){
+                        System.out.println(" ***Stage Expert*** ");
+                        finalGrade = finalGrade+judgingPanel.getJudges().get(k).finalGrade(grade,episodes.get(i).getContestants().get(j));
+                        sum = sum +finalGrade;
+                        System.out.println(" gives " + episodes.get(i).getContestants().get(j).getName());
+                        System.out.println(" grade:" + grade + " \nFinal Grade:" + decimalFormat.format(sum));
+                    }
+                    if (judgingPanel.getJudges().get(k) instanceof RadioBroadcaster){
+                        System.out.println(" ***Radio Broadcaster*** ");
+                        finalGrade = finalGrade+judgingPanel.getJudges().get(k).finalGrade(grade,episodes.get(i).getContestants().get(j));
+                        sum = sum +finalGrade;
+                        System.out.println(" gives " + episodes.get(i).getContestants().get(j).getName());
+                        System.out.println(" grade:" + grade + " \nFinal Grade:" + decimalFormat.format(sum));
+                    }
+
+                    episodes.get(i).createContestantScore(judgingPanel.getJudges().get(k), episodes.get(i).getContestants().get(j), grade, "Μπράβο !!!",j);
+
+                }
+                episodes.get(i).getContestants().get(j).setSum(sum);
+
+                System.out.println("\nΣυνολική Βαθμολογία:" + decimalFormat.format(episodes.get(i).getContestants().get(j).getSum()));
+                System.out.println("");
+            }
+            episodes.get(i).sortEpisodeFinalScores();
+
+            System.out.println("*** O Διαγωνιζόμενος με την υψηλότερη συνολική βαθμολογία.***");
+            System.out.println(episodes.get(i).findTopEpisodeContestant());
+
+            System.out.println("*** O Διαγωνιζόμενος με την χαμηλότερη συγκεντρωτική βαθμολογία.");
+            System.out.println(episodes.get(i).findLastEpisodeContestant());
+            System.out.println("");
+
+            //4.4 Θα αποκλείει τον διαγωνιζόμενο με τη μικρότερη βαθμολογία σε ένα επεισόδιο και άρα δε θα διαγωνίζεται στο επόμενο
+            //      επεισόδιο. Εξαίρεση αποτελεί το πρώτο επεισόδιο μετά το πέρας του οποίου δεν αποχωρεί κανένας διαγωνιζόμενος
+            if (i<9)setnewEpisode(i, episodes.get(i).getContestants());
+
+        }
+
+        //4.5 Με το πέρας και των 10 επεισοδίων να ανακοινώνει το νικητή της μουσικής εκπομπής καθώς και αυτόν που τερμάτισε δεύτερος.
+        System.out.println("***** Νικητές Μουσικού Διαγωνισμού *****");
+        System.out.println("1os Νικητής " + episodes.get(9).getContestants().get(0).getName());
+        System.out.println("2os Νικητής " + episodes.get(9).getContestants().get(1).getName());
+        System.out.println("");
+    }
+
+    //4.4 Mέθοδος όπου εισάγουμε τους διαγωνιζόμενους στο νέο επεισόδιο
+    public void setnewEpisode(int i, List<Contestant> contestants) {
+
+        int size=0;
+        //Εξαίρεση αποτελεί το πρώτο επεισόδιο μετά το πέρας του οποίου δεν αποχωρεί κανένας διαγωνιζόμενος
+        if (i==0) size = contestants.size();
+            //Θα αποκλείει τον διαγωνιζόμενο με τη μικρότερη βαθμολογία σε ένα επεισόδιο -1;
+        else size= contestants.size() - 1;
+
+        //Διαπερνάμε τους διαγωνιζόμενους
+        for (int j = 0; j < size; j++) {
+            //Ανάλογα με τι ειδικότητα είναι δημιουργούμε νέο αντικείμενο
+            Contestant c = null;
+            if (contestants.get(j) instanceof Singer) {
+                c = new Singer(contestants.get(j).getName());
+            }
+            if (contestants.get(j) instanceof InstrumentPlayer) {
+                c = new InstrumentPlayer(contestants.get(j).getName());
+            }
+            if (contestants.get(j) instanceof SongWriter) {
+                c = new SongWriter(contestants.get(j).getName());
+            }
+            if (contestants.get(j) instanceof Band) {
+                c = new Band(contestants.get(j).getName(), contestants.get(j).getFormationDate());
+            }
+
+            // Προσθέτουμε τον διαγωνιζόμενο στο νέο επεισόδιο
+            episodes.get(i + 1).addContestant(c);
+        }
+
+    }
+    @Override
+    public String toString() {
+        return "MusicShow{" + "code=" + code + ", title=" + title + ", episodes=" + episodes + ", judgingPanel=" + judgingPanel + '}';
     }
 }
